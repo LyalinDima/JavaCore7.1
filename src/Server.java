@@ -10,11 +10,11 @@ public class Server {
     public static final String SERVER_HOST = "localhost";
 
     public static void main(String[] args) {
-        try {
-            ServerSocket serverSocket = new ServerSocket(SERVER_PORT);
-            Socket clientSocket = serverSocket.accept();
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        try (ServerSocket serverSocket = new ServerSocket(SERVER_PORT);
+             Socket clientSocket = serverSocket.accept();
+             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        ) {
             System.out.println("New connection accepted");
             final String name = in.readLine();
             out.println(String.format("Hi %s, your port is %d", name, clientSocket.getPort()));
